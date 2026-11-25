@@ -113,7 +113,9 @@ class GameLaunchFlow(scope: CoroutineScope) {
             isRunning()
             return
         }
-
+     // ZenBoost: Clean background RAM & tune optimal FPS flags before launch
+     ZenBoostEngine.optimizeBeforeLaunch(context)
+     
         val account = AccountsManager.currentAccountFlow.value ?: return
         var errorReported = false
         val handleError: (ErrorViewModel.ThrowableMessage) -> Unit = { message ->
