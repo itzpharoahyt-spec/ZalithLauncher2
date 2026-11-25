@@ -2,86 +2,41 @@ name: Build APK
 
 on:
   workflow_dispatch:
-  workflow_call:
-    inputs:
-      variant:
-        required: false
-        type: string
-        default: 'Debug'
-    secrets:
-      KEY_PASSWORD:
-        required: false
-      STORE_PASSWORD:
-        required: false
-      OAUTH_CLIENT_ID:
-        required: false
-      CURSEFORGE_API_KEY:
-        required: false
-      LEGAL_DOCS_TOKEN:
-        required: false
 
 jobs:
   build:
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch: ["arm64"]
-      fail-fast: false
-
-    env:
-      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-      OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
-      CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-      LEGAL_DOCS_TOKEN: ${{ secrets.LEGAL_DOCS_TOKEN }}
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
       - name: Auto-Fix Package Imports for ZenLauncher
-        run:        find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.R/com.zenlauncher.app.R/g' {} +
-       find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.BuildKeys/com.zenlauncher.app.BuildKeys/g' {} +
-       find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.BuildConfig/com.zenlauncher.app.BuildConfig/g' {} +
-       
-          
+        run: |
+          find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.R/com.zenlauncher.app.R/g' {} +
+          find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.BuildKeys/com.zenlauncher.app.BuildKeys/g' {} +
+          find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.BuildConfig/com.zenlauncher.app.BuildConfig/g' {} +
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "21"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          add-job-summary: "on-failure"
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
 
-      - name: Cache Rust build
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            PetLib/rust/target
-          key: petlib-rust-${{ runner.os }}-${{ hashFiles('PetLib/rust/Cargo.lock') }}
-          restore-keys: petlib-rust-${{ runner.os }}-
-
       - name: Install cargo-ndk
         run: |
           version="4.1.2"
-          curl -sL "https://github.com/bbqsrc/cargo-ndk/releases/download/v${version}/cargo-ndk-x86_64-unknown-linux-gnu-v${version}.tgz" |
-            tar xz -C "$HOME/.cargo/bin" --strip-components=1
+          curl -sL "https://github.com{version}/cargo-ndk-x86_64-unknown-linux-gnu-v${version}.tgz" | tar xz -C "$HOME/.cargo/bin" --strip-components=1
           chmod +x "$HOME/.cargo/bin"/cargo-ndk*
-          cargo ndk --version
 
       - name: Setup Android NDK
         run: |
@@ -90,18 +45,16 @@ jobs:
             sdkmanager --install "ndk;27.0.12077973"
             ndk=$(ls -d "$ANDROID_HOME"/ndk/* | sort -V | tail -1)
           fi
-          echo "Using NDK at $ndk"
-          test -f "$ndk/source.properties"
           echo "ANDROID_NDK_HOME=$ndk" >> "$GITHUB_ENV"
 
-      - name: Build APK for ${{ matrix.arch }}
+      - name: Build Debug APK
         run: |
           chmod +x gradlew
-          ./gradlew ZalithLauncher:assemble${{ inputs.variant || 'Debug' }} -Darch=${{ matrix.arch }}
+          ./gradlew ZalithLauncher:assembleDebug -Darch=arm64
 
-      - name: Upload Debug APK for ${{ matrix.arch }}
-        uses: actions/upload-artifact@v7
+      - name: Upload ZenLauncher APK
+        uses: actions/upload-artifact@v4
         with:
-          name: ZenLauncher-${{ matrix.arch }}-apk
+          name: ZenLauncher-arm64-apk
           path: ZalithLauncher/build/outputs/apk/debug/*.apk
           
