@@ -24,7 +24,7 @@ import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import androidx.annotation.Keep
 import androidx.core.net.toUri
-import com.movtery.zalithlauncher.BuildKeys
+import com.zenlauncher.app.BuildKeys
 import com.movtery.zalithlauncher.context.GlobalContext
 import com.movtery.zalithlauncher.game.launch.Launcher
 import com.movtery.zalithlauncher.utils.file.shareFile
