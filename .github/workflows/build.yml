@@ -43,11 +43,11 @@ jobs:
           submodules: recursive
 
       - name: Auto-Fix Package Imports for ZenLauncher
-        run: |
-          find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/import com\.movtery\.zalithlauncher\.R$/import com.zenlauncher.app.R/g' {} +
-          find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/import com\.movtery\.zalithlauncher\.BuildKeys$/import com.zenlauncher.app.BuildKeys/g' {} +
-          find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.BuildConfig\b/com.zenlauncher.app.BuildConfig/g' {} +
-                 
+        run:        find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.R/com.zenlauncher.app.R/g' {} +
+       find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.BuildKeys/com.zenlauncher.app.BuildKeys/g' {} +
+       find ZalithLauncher/src -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i 's/com\.movtery\.zalithlauncher\.BuildConfig/com.zenlauncher.app.BuildConfig/g' {} +
+       
+          
 
       - name: Set up JDK 21
         uses: actions/setup-java@v5
