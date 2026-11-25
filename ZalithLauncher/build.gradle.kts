@@ -232,7 +232,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = zalithPackageName
+        applicationId = com.zenlauncher.app
         applicationIdSuffix = ".v2"
         minSdk = 26
         targetSdk = 34
