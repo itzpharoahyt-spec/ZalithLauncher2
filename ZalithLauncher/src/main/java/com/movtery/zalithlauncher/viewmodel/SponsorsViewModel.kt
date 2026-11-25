@@ -68,7 +68,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import coil3.compose.AsyncImage
-import com.movtery.zalithlauncher.R
+import com.zenlauncher.app.R
 import com.movtery.zalithlauncher.launcherName
 import com.movtery.zalithlauncher.path.GLOBAL_CLIENT
 import com.movtery.zalithlauncher.path.GLOBAL_JSON
