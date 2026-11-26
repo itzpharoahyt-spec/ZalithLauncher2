@@ -184,7 +184,29 @@ class GameLauncher(
             put("jna.boot.library.path", dirPath) //覆盖父类添加的jna路径
         }
     }
+    override fun MutableMap<String, String>.putJavaArgs() {
+        val versionInfo = version.getVersionInfo()
+        //Fix Forge 1.7.2
+        val is172 = (versionInfo?.minecraftVersion ?: "0.0").isEqualTo("1.7.2")
+        if (is172 && versionInfo?.hasLoader(ModLoader.FORGE) == true) {
+            Logger.debug(TAG, "Is Forge 1.7.2, use the patched sorting method.")
+            put("sort.patch", "true")
+        }
 
+        //Jna
+        jnaDir?.let { dir ->
+            val dirPath = dir.absolutePath
+            put("jna.boot.library.path", dirPath) //覆盖父类添加的jna路径
+        }
+
+        // 👇 YAHAN PASTE KARNA HAI 👇
+        // ZenLauncher Glowing Cape System
+        if (ZenCapeManager.isGlowingCapeUnlocked(activity)) {
+            put("zen.cape.enabled", "true")
+            put("zen.cape.style", "white_black_glow")
+        }
+    }
+    
     override fun chdir(): String {
         return version.getGameDir().absolutePath
     }
