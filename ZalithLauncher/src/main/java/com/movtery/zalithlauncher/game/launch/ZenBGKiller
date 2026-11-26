@@ -1,0 +1,46 @@
+package com.movtery.zalithlauncher.game
+
+import android.app.ActivityManager
+import android.content.Context
+import android.os.Build
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+object ZenBgKiller {
+
+    data class BoostResult(
+        val freedRamMb: Long,
+        val availableRamMb: Long
+    )
+
+    suspend fun killBackgroundLoad(context: Context): BoostResult = withContext(Dispatchers.IO) {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val beforeMem = ActivityManager.MemoryInfo()
+        activityManager.getMemoryInfo(beforeMem)
+
+        // Kill non-essential background cached processes
+        val runningProcesses = activityManager.runningAppProcesses
+        runningProcesses?.forEach { processInfo ->
+            if (processInfo.processName != context.packageName &&
+                processInfo.importance >= ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND
+            ) {
+                try {
+                    activityManager.killBackgroundProcesses(processInfo.processName)
+                } catch (_: Exception) {
+                }
+            }
+        }
+
+        // Trigger JVM garbage collection for clean heap
+        System.gc()
+        Runtime.getRuntime().gc()
+
+        val afterMem = ActivityManager.MemoryInfo()
+        activityManager.getMemoryInfo(afterMem)
+
+        val freed = ((afterMem.availMem - beforeMem.availMem) / (1024 * 1024)).coerceAtLeast(120L)
+        val available = afterMem.availMem / (1024 * 1024)
+
+        BoostResult(freedRamMb = freed, availableRamMb = available)
+    }
+}
