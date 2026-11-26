@@ -60,7 +60,7 @@ git clone git@github.com:ZalithLauncher/ZalithLauncher2.git
 3. 《用户协议》与《隐私政策》为本项目专有法律文件，**不属于 GPL-3.0 授权范围**：它们仅随官方构建分发，修改版本不得捆绑、复制或仿冒这些文件；未包含这些文件的构建将在启动时跳过协议同意页面。
 
 ## 引用开源项目
-
+ 
 本软件使用以下开源库:
 
 | Library                               | Copyright                                                                                                     | License              | Official Link                                                                    |
