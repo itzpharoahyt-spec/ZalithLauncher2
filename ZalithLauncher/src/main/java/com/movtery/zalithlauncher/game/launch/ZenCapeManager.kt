@@ -12,7 +12,7 @@ object ZenCapeManager {
     private const val KEY_UNLOCKED = "glowing_cape_unlocked"
 
     // Tera Discord Invite Link (Apna permanent link yahan daal dena!)
-    const val DISCORD_INVITE_URL = "https://discord.gg"
+    const val DISCORD_INVITE_URL = "https://discord.gg/wmbN3SyzUQ"
 
     // Ye code tu apne Discord ke #10-invites-reward channel mein dalega (bas mahine mein ek baar badal sakta hai!)
     private const val VALID_SECRET_CODE = "ZEN10-GLOW2026"
