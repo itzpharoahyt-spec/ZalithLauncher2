@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.movtery.cardgrid.model.CardLimits
 import com.movtery.cardgrid.model.CardType
-import com.movtery.zalithlauncher.game.launch.ZenCapeManager
-import com.movtery.zalithlauncher.game.launch.ZenModInstaller
-import com.movtery.zalithlauncher.game.launch.ZenReplayManager
+import com.movtery.zalithlauncher.game.ZenCapeManager
+import com.movtery.zalithlauncher.game.ZenModInstaller
+import com.movtery.zalithlauncher.game.ZenReplayManager
 import com.movtery.zalithlauncher.ui.components.BackgroundCard
 import com.movtery.zalithlauncher.ui.screens.content.home.server.ServerCardContent
 import com.movtery.zalithlauncher.ui.screens.content.home.version.VersionCardContent
@@ -108,7 +108,10 @@ object HomeCards {
                                 busy = true
                                 scope.launch {
                                     val safeDir = ctx.getExternalFilesDir(null) ?: ctx.filesDir
-                                    ZenModInstaller.installZenFpsAndCapePack(File(safeDir, ".minecraft")) { modText = it }
+                                    ZenModInstaller.installZenFpsAndCapePack(
+                                        gameDir = File(safeDir, ".minecraft"),
+                                        onProgress = { status -> modText = status }
+                                    )
                                     busy = false
                                 }
                             }
