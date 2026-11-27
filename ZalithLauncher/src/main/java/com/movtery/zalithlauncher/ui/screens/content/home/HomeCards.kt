@@ -36,7 +36,7 @@ object HomeCards {
     const val VERSION_CARD_TYPE_ID = "version_card"
     const val SERVER_CARD_TYPE_ID = "server_card"
 
-    private const val DISCORD_URL = "https://discord.gg"
+    private const val DISCORD_URL = "https://discord.gg/qrDXxxWapS"
     private const val OWNER_CODE = "PHAROAH-OWNER-999"
     private const val PUBLIC_CODE = "ZEN10-GLOW2026"
 
