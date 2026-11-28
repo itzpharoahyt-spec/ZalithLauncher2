@@ -25,7 +25,7 @@
 <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     
     <application
-        android:name="com.movtery.zalithlauncher.ZLApplication"
+        android:name=".ZLApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:networkSecurityConfig="@xml/network_security_config"
         android:fullBackupContent="@xml/backup_rules"
@@ -46,7 +46,7 @@
         tools:targetApi="33"
         tools:ignore="DiscouragedApi">
         <activity
-            android:name="com.movtery.zalithlauncher.ui.activities.SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.SplashScreen"
             android:exported="true"
@@ -64,7 +64,7 @@
             android:label="@string/import_modpack"
             android:name="com.movtery.activity.ImportModpackActivity"
             android:exported="true"
-            android:targetActivity="com.movtery.zalithlauncher.ui.activities.SplashActivity">
+            android:targetActivity=".ui.activities.SplashActivity">
 
             <meta-data
                 android:name="import_type"
@@ -109,24 +109,24 @@
         </activity-alias>
 
         <activity
-            android:name="com.movtery.zalithlauncher.ui.activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:launchMode="singleTop"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name="com.movtery.zalithlauncher.ui.activities.ControlEditorActivity"
+            android:name=".ui.activities.ControlEditorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name="com.movtery.zalithlauncher.ui.activities.VMActivity"
+            android:name=".ui.activities.VMActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:process=":game"
             android:launchMode="standard"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name="com.movtery.zalithlauncher.ui.activities.ErrorActivity"
+        <activity android:name=".ui.activities.ErrorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name="com.movtery.zalithlauncher.ui.activities.FatalErrorActivity"
+        <activity android:name=".ui.activities.FatalErrorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
             android:theme="@style/Theme.Material3.DayNight.Dialog.Alert" />
 
@@ -141,16 +141,16 @@
             android:exported="false" />
 
         <service
-            android:name="com.movtery.zalithlauncher.filemanager.events.FileManagerEventService"
+            android:name=".filemanager.events.FileManagerEventService"
             android:process=":filemanager"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.movtery.zalithlauncher.filemanager.EVENT_SERVICE" />
+                <action android:name=".filemanager.EVENT_SERVICE" />
             </intent-filter>
         </service>
 
         <service
-            android:name="com.movtery.zalithlauncher.keepalive.TaskKeepAliveService"
+            android:name=".keepalive.TaskKeepAliveService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="specialUse">
@@ -160,7 +160,7 @@
         </service>
 
         <service
-            android:name="com.movtery.zalithlauncher.game.download.jvm_server.JvmService"
+            android:name=".game.download.jvm_server.JvmService"
             android:enabled="true"
             android:foregroundServiceType="specialUse"
             android:process=":jvm">
@@ -170,7 +170,7 @@
         </service>
 
         <service
-            android:name="com.movtery.zalithlauncher.game.launch.GameService"
+            android:name=".game.launch.GameService"
             android:enabled="true"
             android:foregroundServiceType="specialUse"
             android:process=":game">
