@@ -71,7 +71,7 @@ fun ZalithLauncherTheme(
             motionScheme = MotionScheme.expressive()
         ) {
             content()
-            activeMaskView()
+            
         }
     }
 }
